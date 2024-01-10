@@ -12,5 +12,5 @@ public interface ClientService {
     public ClientDto ajouterClient(ClientDto c);
     public ClientDto modifierClient(ClientDto c);
     public void supprimerClient(long id);
-    public DemandeDto demandeDeClient(long id);
+    public ClientDto getClient(long id);
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.stream.Collectors;
 
+
 @SpringBootApplication
 @AllArgsConstructor
 public class BrockerServicesBackEndApplication implements CommandLineRunner {
@@ -22,7 +23,9 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
         c.setId(12);
         c.setNom("mohamed");
         c.setPrenom("echchebaby");
-        clientService.ajouterClient(c);
+        for (int i = 0; i < 5; i++) {
+            clientService.ajouterClient(c);
+        }
         clientService.getClients().stream().map(cl->{
             System.out.println(cl.getId()+"-----"+cl.getNom()+"-----"+cl.getPrenom());
             return cl;
