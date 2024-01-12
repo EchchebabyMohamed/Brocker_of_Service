@@ -15,7 +15,4 @@ import java.util.List;
 public class Employe extends Personne{
     @ManyToMany(mappedBy = "employes", fetch = FetchType.LAZY)
     private List<Demande> demandes;
-
-    @ManyToMany
-    private List<Service> services;
 }

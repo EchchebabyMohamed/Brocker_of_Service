@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,6 @@ public class Service {
     private String nom;
     private String img;
     private String desc;
-    @ManyToMany(mappedBy = "services",fetch = FetchType.LAZY)
-    private List<Employe> employes;
+    @ManyToMany
+    private List<Employe> employes = new ArrayList<>();
 }

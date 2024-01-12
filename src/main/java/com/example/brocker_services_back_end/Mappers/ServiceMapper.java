@@ -15,7 +15,7 @@ public class ServiceMapper {
     public Service serviceDToToService(ServiceDto serviceDto){
         Service service=new Service();
         BeanUtils.copyProperties(serviceDto,service);
-        service.setEmployes(serviceDto.getEmployes().stream()
+        service.setEmployes(serviceDto.getEmployeDtos().stream()
                 .map(emp->employeMapper.deEmployeDToToEmploye(emp))
                 .collect(Collectors.toList()));
         return service;
@@ -23,7 +23,7 @@ public class ServiceMapper {
     public ServiceDto serviceToServiceDto(Service service){
         ServiceDto serviceDto=new ServiceDto();
         BeanUtils.copyProperties(service,serviceDto);
-        serviceDto.setEmployes(service.getEmployes().stream()
+        serviceDto.setEmployeDtos(service.getEmployes().stream()
                 .map(emp->employeMapper.deEmployeToEmployeDto(emp))
                 .collect(Collectors.toList()));
         return serviceDto;

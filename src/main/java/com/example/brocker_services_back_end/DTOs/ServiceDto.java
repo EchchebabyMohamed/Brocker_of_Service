@@ -3,6 +3,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -11,5 +12,5 @@ public class ServiceDto {
     private String nom;
     private String img;
     private String desc;
-    private List<EmployeDto> employes;
+    private List<EmployeDto> employeDtos= new ArrayList<>();
 }

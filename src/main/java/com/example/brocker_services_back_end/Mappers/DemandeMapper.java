@@ -17,10 +17,10 @@ public class DemandeMapper {
     public Demande demandeDtoToDemande(DemandeDto demandeDto){
         Demande demande=new Demande();
         BeanUtils.copyProperties(demandeDto,demande);
-        demande.setEmployes(demandeDto.getEmployes().stream()
+        demande.setEmployes(demandeDto.getEmployeDtos().stream()
                 .map(emp->employeMapper.deEmployeDToToEmploye(emp))
                 .collect(Collectors.toList()));
-        demande.setClients(demandeDto.getClients().stream()
+        demande.setClients(demandeDto.getClientDtos().stream()
                 .map(cl->clientMapper.clientDToToClient(cl))
                 .collect(Collectors.toList()));
         return demande;
@@ -28,10 +28,10 @@ public class DemandeMapper {
     public DemandeDto demandeToDemandeDto(Demande demande){
         DemandeDto demandeDto=new DemandeDto();
         BeanUtils.copyProperties(demande,demandeDto);
-        demandeDto.setEmployes(demande.getEmployes().stream()
+        demandeDto.setEmployeDtos(demande.getEmployes().stream()
                 .map(emp->employeMapper.deEmployeToEmployeDto(emp))
                 .collect(Collectors.toList()));
-        demandeDto.setClients(demande.getClients().stream()
+        demandeDto.setClientDtos(demande.getClients().stream()
                 .map(cl->clientMapper.clientToClientDto(cl))
                 .collect(Collectors.toList()));
         return demandeDto;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface SeviceService {
+public interface ServiceService {
     public List<ServiceDto> getServices();
     public ServiceDto getService(long id);
     public ServiceDto ajouterService(ServiceDto serviceDto);

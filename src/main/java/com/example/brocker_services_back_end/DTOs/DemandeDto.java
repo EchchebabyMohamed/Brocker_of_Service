@@ -10,7 +10,7 @@ import java.util.List;
 public class DemandeDto {
     private long id;
     private Date date;
-    private List<EmployeDto> employes;
-    private List<ClientDto> clients;
+    private List<EmployeDto> employeDtos;
+    private List<ClientDto> clientDtos;
 
 }
