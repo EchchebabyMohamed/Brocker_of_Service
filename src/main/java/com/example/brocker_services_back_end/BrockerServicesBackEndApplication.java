@@ -3,16 +3,13 @@ package com.example.brocker_services_back_end;
 import com.example.brocker_services_back_end.DTOs.ClientDto;
 import com.example.brocker_services_back_end.DTOs.EmployeDto;
 import com.example.brocker_services_back_end.DTOs.ServiceDto;
-import com.example.brocker_services_back_end.Mappers.ServiceMapper;
 import com.example.brocker_services_back_end.Services.ClientService;
 import com.example.brocker_services_back_end.Services.EmployeService;
 import com.example.brocker_services_back_end.Services.ServiceService;
-import com.example.brocker_services_back_end.reposetory.ServiceReposetory;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.example.brocker_services_back_end.Enteties.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +56,15 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
         serviceDto.setId(12);
         serviceDto.setNom("hhhhhhhhhhhhh");
         serviceDto.getEmployeDtos().addAll(collect);
-        serviceService.ajouterService(serviceDto);
-        System.out.println("-----------test enregistre services----------");
-        serviceService.getServices().stream().map(se->{
-            System.out.println(se.getId() + "-----" + se.getNom() + "-----");
-            return se;
-        });
+        ServiceDto serviceDto1 = serviceService.ajouterService(serviceDto);
+//        System.out.println("-----------test enregistre services----------");
+//        List<ServiceDto> servicesDtos = serviceService.getServices();
+//        servicesDtos.forEach(serviceDto2 -> {
+//            System.out.println(serviceDto2.getNom());
+//            System.out.println("les employees de ce service");
+//            serviceDto2.getEmployeDtos().forEach(em->{
+//                System.out.println(em.getId() + "-----" + em.getNom() + "-----" + em.getPrenom());
+//            });
+//        });
     }
 }

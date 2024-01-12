@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface ClientService {
     public List<ClientDto> getClients();
     public ClientDto ajouterClient(ClientDto c);

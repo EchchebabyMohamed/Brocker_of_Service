@@ -16,6 +16,6 @@ public class Service {
     private String nom;
     private String img;
     private String desc;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Employe> employes = new ArrayList<>();
 }
