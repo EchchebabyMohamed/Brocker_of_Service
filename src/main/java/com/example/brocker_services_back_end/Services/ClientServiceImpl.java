@@ -1,10 +1,13 @@
 package com.example.brocker_services_back_end.Services;
 
 import com.example.brocker_services_back_end.DTOs.ClientDto;
+import com.example.brocker_services_back_end.DTOs.PersonneDto;
 import com.example.brocker_services_back_end.Exception.ClientNotFountException;
 import com.example.brocker_services_back_end.Mappers.ClientMapper;
 import com.example.brocker_services_back_end.Enteties.Client;
+import com.example.brocker_services_back_end.Mappers.PersonneMapper;
 import com.example.brocker_services_back_end.reposetory.ClientReposetory;
+import com.example.brocker_services_back_end.reposetory.PersonneReposetory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     ClientReposetory clientReposetory;
     ClientMapper clientMapper;
+    PersonneReposetory personneReposetory;
+    PersonneMapper personneMapper;
     @Override
     public List<ClientDto> getClients() {
         List<Client> clients = clientReposetory.findAll();
@@ -50,5 +55,10 @@ public class ClientServiceImpl implements ClientService {
                 ()->new ClientNotFountException("Client non trouver")
         );
         return clientMapper.clientToClientDto(client);
+    }
+
+    @Override
+    public PersonneDto loadUserByUsername(String mail) {
+        return personneMapper.dePersonne(personneReposetory.findByEmail(mail));
     }
 }

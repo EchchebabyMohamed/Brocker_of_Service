@@ -5,4 +5,5 @@ import com.example.brocker_services_back_end.Enteties.Personne;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PersonneReposetory extends JpaRepository<Personne, Long> {
+    public Personne findByEmail(String s);
 }

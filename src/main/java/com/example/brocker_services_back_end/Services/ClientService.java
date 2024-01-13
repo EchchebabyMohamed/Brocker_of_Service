@@ -2,6 +2,7 @@ package com.example.brocker_services_back_end.Services;
 
 import com.example.brocker_services_back_end.DTOs.ClientDto;
 import com.example.brocker_services_back_end.DTOs.DemandeDto;
+import com.example.brocker_services_back_end.DTOs.PersonneDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface ClientService {
     public ClientDto modifierClient(ClientDto c);
     public void supprimerClient(long id);
     public ClientDto getClient(long id);
+    public PersonneDto loadUserByUsername(String mail);
 }
