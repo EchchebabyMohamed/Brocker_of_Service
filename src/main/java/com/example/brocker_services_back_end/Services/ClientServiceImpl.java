@@ -9,6 +9,7 @@ import com.example.brocker_services_back_end.Mappers.PersonneMapper;
 import com.example.brocker_services_back_end.reposetory.ClientReposetory;
 import com.example.brocker_services_back_end.reposetory.PersonneReposetory;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class ClientServiceImpl implements ClientService {
     ClientMapper clientMapper;
     PersonneReposetory personneReposetory;
     PersonneMapper personneMapper;
+    PasswordEncoder passwordEncoder;
     @Override
     public List<ClientDto> getClients() {
         List<Client> clients = clientReposetory.findAll();
@@ -33,6 +35,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto ajouterClient(ClientDto c) {
+        c.setPassword(passwordEncoder.encode(c.getPassword()));
         ClientDto clientDto= new ClientDto();
         Client cl = clientReposetory.save(clientMapper.clientDToToClient(c));
         return clientMapper.clientToClientDto(cl);
@@ -40,6 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto modifierClient(ClientDto c) {
+        c.setPassword(passwordEncoder.encode(c.getPassword()));
         ClientDto clientDto= new ClientDto();
         Client cl = clientReposetory.save(clientMapper.clientDToToClient(c));
         return clientMapper.clientToClientDto(cl);
@@ -57,8 +61,4 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.clientToClientDto(client);
     }
 
-    @Override
-    public PersonneDto loadUserByUsername(String mail) {
-        return personneMapper.dePersonne(personneReposetory.findByEmail(mail));
-    }
 }

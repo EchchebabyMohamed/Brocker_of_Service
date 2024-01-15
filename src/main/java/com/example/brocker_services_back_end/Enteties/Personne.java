@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -15,5 +18,6 @@ public class Personne {
     private String prenom;
     private String email;
     private String password;
-    private String role;
+    @ManyToMany( mappedBy = "personnes",fetch = FetchType.EAGER)
+    private List<Roles> roles;
 }

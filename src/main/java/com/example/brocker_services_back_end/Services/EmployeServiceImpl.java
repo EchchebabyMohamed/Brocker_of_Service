@@ -6,6 +6,7 @@ import com.example.brocker_services_back_end.Exception.EmployeNotFountException;
 import com.example.brocker_services_back_end.Mappers.EmployeMapper;
 import com.example.brocker_services_back_end.reposetory.EmployeReposetory;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +19,17 @@ import java.util.stream.Collectors;
 public class EmployeServiceImpl implements EmployeService {
     EmployeReposetory employeReposetory;
     EmployeMapper employeMapper;
+    PasswordEncoder passwordEncoder;
     @Override
     public EmployeDto ajouterEmploye(EmployeDto employeDto) {
+        employeDto.setPassword(employeDto.getPassword());
         return employeMapper.deEmployeToEmployeDto(employeReposetory.save(employeMapper
                 .deEmployeDToToEmploye(employeDto)));
     }
 
     @Override
     public EmployeDto modifierEmploye(EmployeDto employeDto) {
+        employeDto.setPassword(employeDto.getPassword());
         return employeMapper.deEmployeToEmployeDto(employeReposetory.save(employeMapper
                 .deEmployeDToToEmploye(employeDto)));
     }

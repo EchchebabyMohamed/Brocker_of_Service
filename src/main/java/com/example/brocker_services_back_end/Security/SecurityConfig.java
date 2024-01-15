@@ -8,9 +8,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -18,15 +21,18 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    private UserDetailsImpl userDetails;
+    private UserDetailsImpl userDetailsServiceimpl;
 //    @Bean
 //    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
 //        PasswordEncoder passwordEncoder = passwordEncoder();
@@ -35,40 +41,42 @@ public class SecurityConfig {
 //                User.withUsername("user2").password(passwordEncoder.encode("1234")).authorities("USER","ADMIN").build()
 //        );
 //    }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
+        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return new ProviderManager(daoAuthenticationProvider);
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(ar->ar.requestMatchers("/login/**").permitAll())
+                .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
+                .csrf(cs->cs.disable())
                 .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(sf->sf.disable())
-                .authorizeHttpRequests(au-> {
-                    au.requestMatchers("/profile/**").permitAll();
-                    au.anyRequest().authenticated();
-                })
-                .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
-                .userDetailsService(userDetails)
+                .oauth2ResourceServer(oauth->oauth.jwt(Customizer.withDefaults()))
+                .userDetailsService(userDetailsServiceimpl)
                 .build();
     }
     @Bean
     JwtEncoder jwtEncoder(){
-        String secretKey ="A9b#5cH8pQ2rL!mE7fG3sK1dX6oV4tZyN0iU2jWqBxPzOvR9";
-        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey.getBytes()));
+        String secretkey = "9faa372517ac1d389758d3758fc07acf80f542277f26fec1ce4593093f64e338";
+        return new NimbusJwtEncoder(new ImmutableSecret<>(secretkey.getBytes()));
     }
     @Bean
     JwtDecoder jwtDecoder(){
-        String secretKey ="A9b#5cH8pQ2rL!mE7fG3sK1dX6oV4tZyN0iU2jWqBxPzOvR9";
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(),"RSA");
+        String secretkey = "9faa372517ac1d389758d3758fc07acf80f542277f26fec1ce4593093f64e338";
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretkey.getBytes(),"RSA");
         return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
-    }
-
-    @Bean
-    AuthenticationManager authenticationManager(){
-        DaoAuthenticationProvider daoAuthenticationProvider =new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userDetails);
-        return new ProviderManager(daoAuthenticationProvider);
     }
 
 }

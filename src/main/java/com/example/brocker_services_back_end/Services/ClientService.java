@@ -13,5 +13,5 @@ public interface ClientService {
     public ClientDto modifierClient(ClientDto c);
     public void supprimerClient(long id);
     public ClientDto getClient(long id);
-    public PersonneDto loadUserByUsername(String mail);
+
 }

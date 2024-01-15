@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data @NoArgsConstructor @AllArgsConstructor
 public class PersonneDto {
     private long id;
@@ -11,5 +14,5 @@ public class PersonneDto {
     private String prenom;
     private String email;
     private String password;
-    private String role;
+    private List<RolesDto> rolesDtos = new ArrayList<>();
 }
