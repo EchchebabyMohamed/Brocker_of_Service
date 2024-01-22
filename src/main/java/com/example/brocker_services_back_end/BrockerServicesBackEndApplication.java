@@ -36,7 +36,7 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
 //        personneService.addRole("ADMIN");
 //        personneService.addRole("USER");
 //
-//        for (int i = 0; i < 5; i++) {
+//        for (int i = 1; i < 6; i++) {
 //            c.setNom("Nom cl "+i);
 //            c.setPrenom("prenom cl "+i);
 //            c.setEmail("mail"+i+"@gmail.com");

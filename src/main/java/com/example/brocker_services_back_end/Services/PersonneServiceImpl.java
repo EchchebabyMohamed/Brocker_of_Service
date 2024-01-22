@@ -42,7 +42,6 @@ public class PersonneServiceImpl implements PersonneService {
         if (personne.getRoles().indexOf(roles) != -1) {
             throw new RoleExisteException("le role que vous attribué déja existe");
         }
-        roles.getPersonnes().add(personne);
         personne.getRoles().add(roles);
         personneReposetory.save(personne);
     }
@@ -60,7 +59,6 @@ public class PersonneServiceImpl implements PersonneService {
                     "utulisateur n'éxiste pas");
         }
         personne.getRoles().remove(roles);
-        roles.getPersonnes().remove(personne);
     }
     @Override
     public PersonneDto loadUserByUsername(String mail) {
