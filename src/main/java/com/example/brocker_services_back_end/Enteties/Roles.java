@@ -12,6 +12,4 @@ import java.util.List;
 public class Roles {
     @Id
     private String role;
-    @ManyToMany
-    private List<Personne> personnes;
 }

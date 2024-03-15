@@ -52,8 +52,8 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
 //            personneService.AddRoleToUser(3,"USER");
 //        } catch (RoleExisteException e) {
 //            throw new RuntimeException(e);
-//        }
-        //personneService.RemoveRoleToUser(3,"ADMIN");
+        }
+//        //personneService.RemoveRoleToUser(3,"ADMIN");
 //        EmployeDto employeDto = new EmployeDto();
 //        for (int i = 0; i < 10; i++) {
 //            employeDto.setNom("Nom emp "+i);
@@ -69,7 +69,7 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
 //            System.out.println(cl.getId() + "-----" + cl.getNom() + "-----" + cl.getPrenom());
 //            return cl;
 //        }).collect(Collectors.toList());
-//
+
 //        //services
 //        System.out.println("-----------services----------");
 //        ServiceDto serviceDto = new ServiceDto();
@@ -85,6 +85,6 @@ public class BrockerServicesBackEndApplication implements CommandLineRunner {
 //            serviceDto2.getEmployeDtos().forEach(em->{
 //                System.out.println(em.getId() + "-----" + em.getNom() + "-----" + em.getPrenom());
 //            });
-//        });
-    }
+//       });
+//    }
 }
