@@ -43,7 +43,10 @@ public class PersonneServiceImpl implements PersonneService {
             throw new RoleExisteException("le role que vous attribué déja existe");
         }
         personne.getRoles().add(roles);
-        personneReposetory.save(personne);
+        Personne save = personneReposetory.save(personne);
+        System.out.println("les info de personne "+personne.getId());
+        System.out.println("les info a ajouté"+id_user+" §§§§ "+role);
+        System.out.println("le role est bien ajouté"+save.getRoles());
     }
 
     @Override
