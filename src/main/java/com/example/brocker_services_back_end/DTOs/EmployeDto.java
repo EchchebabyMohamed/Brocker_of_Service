@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 @Data @NoArgsConstructor
 public class EmployeDto extends Personne {
+    private String img;
+    private Float price;
 }

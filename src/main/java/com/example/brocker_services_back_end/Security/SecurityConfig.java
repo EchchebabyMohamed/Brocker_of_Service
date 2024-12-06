@@ -26,13 +26,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.web.filter.CorsFilter;
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private UserDetailsImpl userDetailsServiceimpl;
-//    @Bean
+
+    //    @Bean
 //    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
 //        PasswordEncoder passwordEncoder = passwordEncoder();
 //        return new InMemoryUserDetailsManager(
@@ -54,28 +56,30 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(ar->ar.requestMatchers("/login/**").permitAll())
-                .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
+                .cors(Customizer.withDefaults())
                 .csrf(cs->cs.disable())
-                .cors(crs-> crs.disable())
                 .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(ar->ar.requestMatchers("/login/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/swagger-ui/**").permitAll())
+                .authorizeHttpRequests(auth-> auth.anyRequest().permitAll())
                 .oauth2ResourceServer(oauth->oauth.jwt(Customizer.withDefaults()))
                 .userDetailsService(userDetailsServiceimpl)
                 .build();
     }
+
     @Bean
     JwtEncoder jwtEncoder(){
         String secretkey = "9faa372517ac1d389758d3758fc07acf80f542277f26fec1ce4593093f64e338";
         return new NimbusJwtEncoder(new ImmutableSecret<>(secretkey.getBytes()));
     }
+
     @Bean
     JwtDecoder jwtDecoder(){
         String secretkey = "9faa372517ac1d389758d3758fc07acf80f542277f26fec1ce4593093f64e338";
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretkey.getBytes(),"RSA");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretkey.getBytes(), "HmacSHA512");
         return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
     }
 
@@ -83,12 +87,11 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(false);
-        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-
 }

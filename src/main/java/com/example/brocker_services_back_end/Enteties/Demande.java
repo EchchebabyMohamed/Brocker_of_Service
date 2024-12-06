@@ -12,11 +12,12 @@ import java.util.List;
 public class Demande {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.DATE)
     private Date date;
-    @ManyToMany
-    private List<Employe> employes;
-    @ManyToMany
-    private List<Client> clients;
+    @ManyToOne
+    private Employe employe;
+    @ManyToOne
+    private Client client;
+    private String message;
 
 }

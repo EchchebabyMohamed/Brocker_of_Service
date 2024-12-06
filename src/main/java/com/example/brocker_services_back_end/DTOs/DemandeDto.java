@@ -10,7 +10,8 @@ import java.util.List;
 public class DemandeDto {
     private long id;
     private Date date;
-    private List<EmployeDto> employeDtos;
-    private List<ClientDto> clientDtos;
+    private EmployeDto employeDto;
+    private ClientDto clientDto;
+    private String message;
 
 }

@@ -16,6 +16,9 @@ public class Service {
     private String nom;
     private String img;
     private String description;
+    @Lob
+    @Column(length = 10000)
+    private String descriptionDetail;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Employe> employes;
 }

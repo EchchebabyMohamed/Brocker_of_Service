@@ -1,5 +1,8 @@
 package com.example.brocker_services_back_end.web;
 
+import com.example.brocker_services_back_end.DTOs.PersonneDto;
+import com.example.brocker_services_back_end.Enteties.Personne;
+import com.example.brocker_services_back_end.Services.PersonneService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,14 +24,18 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 public class SecurityController {
+    private PersonneService personneService;
     private JwtEncoder jwtEncoder;
     private AuthenticationManager authenticationManager;
+
     @GetMapping("/profile")
-    public Authentication authenticationManager(Authentication authentication){
+    public Authentication authenticationManager(Authentication authentication) {
         return authentication;
     }
+
     @PostMapping("/login")
-    public Map<String,String> login(String username,String password){
+    public Map<String, String> login(String username, String password) {
+        PersonneDto personne=personneService.loadUserByUsername(username);
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
         Instant instant = Instant.now();
@@ -37,13 +44,14 @@ public class SecurityController {
                 .issuedAt(instant)
                 .subject(username)
                 .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
-                .claim("scop",scops)
+                .claim("scop", scops)
+                .claim("id",personne.getId())
                 .build();
         JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(
                 JwsHeader.with(MacAlgorithm.HS512).build(),
                 jwtClaimsSet
         );
         String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
-        return Map.of("access-token",jwt);
+        return Map.of("access-token", jwt);
     }
 }

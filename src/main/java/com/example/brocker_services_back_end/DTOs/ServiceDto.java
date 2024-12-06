@@ -12,5 +12,6 @@ public class ServiceDto {
     private String nom;
     private String img;
     private String description;
+    private String descriptionDetail;
     private List<EmployeDto> employeDtos= new ArrayList<>();
 }

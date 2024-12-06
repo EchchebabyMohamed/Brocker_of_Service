@@ -9,6 +9,6 @@ import java.util.List;
 @Data @NoArgsConstructor
 @DiscriminatorValue("CLI")
 public class Client extends Personne{
-    @ManyToMany(mappedBy = "clients")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Demande> demandes;
 }

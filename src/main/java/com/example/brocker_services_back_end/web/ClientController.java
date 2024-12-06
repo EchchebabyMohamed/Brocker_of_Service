@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -14,26 +15,30 @@ import java.util.List;
 @AllArgsConstructor
 public class ClientController {
     private ClientService clientService;
+
     @GetMapping("/clients/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public ClientDto getClient(@PathVariable(name = "id") long id){
+    public ClientDto getClient(@PathVariable(name = "id") long id) {
         return clientService.getClient(id);
     }
+
     @GetMapping("/clients")
-    public List<ClientDto> getClients(){
+    public List<ClientDto> getClients() {
         return clientService.getClients();
     }
+
     @PostMapping("/clients/add")
-    public ClientDto addClient(@RequestBody ClientDto clientDto){
+    public ClientDto addClient(@RequestBody ClientDto clientDto) {
         return clientService.ajouterClient(clientDto);
     }
+
     @PutMapping("/clients/Edit/{id}")
-    public ClientDto editClient(@PathVariable long id,@RequestBody ClientDto clientDto){
+    public ClientDto editClient(@PathVariable long id, @RequestBody ClientDto clientDto) {
         clientDto.setId(id);
         return clientService.modifierClient(clientDto);
     }
+
     @DeleteMapping("/clients/Delete/{id}")
-    public void deleteClient(@PathVariable long id){
+    public void deleteClient(@PathVariable long id) {
         clientService.supprimerClient(id);
     }
 }
